@@ -15,6 +15,7 @@ def find_unreal_4():
 # Installs AirSim
 def installer():
     # Basic setup
+    griffin_directory = os.getcwd()
     airsim_directory = griffin_directory + r"/AirSim"
     os.chdir(airsim_directory)
     run("./setup.sh")
