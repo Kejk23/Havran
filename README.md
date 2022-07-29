@@ -2,7 +2,7 @@
 AI data collection software for drones in InfluxDB
 
 ## Description
-Griffin will be a software application for monitoring drones and storing their data using AI and machine learning. It is still in the early stages of development, but once ready, Griffin will be used to pilot your drone and collect data from its camera in the same way you train it to do so in Unreal Engine. You can then use your drone to, for example, monitor crops on a field and then use the data for your insurance company, or to monitor heat in nyour town ad use it to create a heat map. The choice will be yours.
+Griffin will be a software application for monitoring drones and storing their data using AI and machine learning. It is still in the early stages of development, but once ready, Griffin will be used to pilot your drone and collect data from its camera in the same way you will train it to do so in Unreal Engine. Your drone will then be able to, for example, monitor crops on a field and then use the date for insurace and farm maintenance, monitor heat and vegetation in your town and use it to create heat maps and suggestions for tree an bush planting sites. The choice will be yours.
 
 ## Requirments 
 To install Griffin, you will have to download a few dependencies, so make sure to install them first before continuing.
