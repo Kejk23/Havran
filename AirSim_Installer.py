@@ -22,12 +22,9 @@ def find_unreal_4(directory):
 
 # Installs AirSim
 def installer():
-    # Installs requirments for Griffin
-    #run("pip3 install -r requirements.txt") 
-
     # Clones AirSim and cds into it
     griffin_directory = os.getcwd()
-    #run("git clone https://github.com/Microsoft/AirSim.git")
+    run("git clone https://github.com/Microsoft/AirSim.git")
     airsim_directory = griffin_directory + r"/AirSim"
     os.chdir(airsim_directory)
 
