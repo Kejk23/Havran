@@ -46,13 +46,13 @@ pip3 install -r requirements.txt
 
 ### AirSim
 Next, we will have to install AirSim. If you have it already, you can skip this step, but if not, please follow the steps below. Installing AirSim, especially on macOS, is so hard nowadays, that I decided to make a python script that installs everything for you. All you have to do now is to run the AirSim_Installer.py script (**in Developer Command Prompt for VS 2022 if you are a Windows user**) by running
-'''bash
+```bash
 python3 AirSim_Installer.py
-'''
+```
 or
-'''bash
+```bash
 python AirSim_Installer.py
-'''
+```
 in your Griffin directory. On Windows, a .sln file should open in Visual Studio 2022. Compile it by clicking on a green play button at the top of the screen in the middle.
 
 ## How to run
