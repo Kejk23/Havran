@@ -10,7 +10,7 @@ ENV PYTHONPATH /usr/lib/redis/modules/deps/cpython/Lib
 
 WORKDIR /usr/src/app
 
-COPY COPY requirements.txt ./
+COPY requirements.txt ./
 RUN set -ex; \
     apt-get update; \
     apt install -y pipenv; \
