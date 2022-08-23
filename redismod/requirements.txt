@@ -1,6 +1,6 @@
 numpy
 opencv-python
-Pillow
+pillow
 azure-storage-blob
 imageio
 pandas
