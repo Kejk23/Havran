@@ -1,6 +1,6 @@
 import redis
 
-if _name_ == '_main_':
+if __name__ == '_main_':
     conn = redis.Redis(host='redismod', port='6379')
 
     model_file = open('models/model.pb', 'rb')
