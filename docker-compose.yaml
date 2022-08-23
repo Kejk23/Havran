@@ -13,9 +13,11 @@ services:
       - DOCKER_INFLUXDB_INIT_BUCKET=iot_center
       - DOCKER_INFLUXDB_INIT_RETENTION=30d
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-token
-
     command: influxd --reporting-disabled
-
+    
+  redis_service:
+    image: redis:latest
+    
   mosquitto:
     image: eclipse-mosquitto:2.0.10
     ports:
@@ -27,6 +29,15 @@ services:
     image: telegraf:latest
     volumes:
       - $PWD/config/telegraf.conf:/etc/telegraf/telegraf.conf
+      
+  mysql_ervice:
+    image: mysql:latest
+    environment:
+    - MYSQL_ROOT_PASSWORD=root
+    - MYSQL_DATABASE=test
+    - MYSQL_PASSWORD=root
+    ports:
+    - 3306:3306
 
   iot_center:
     image: ghcr.io/bonitoo-io/iot-center-v2/iot-center:nightly
@@ -44,4 +55,54 @@ services:
       - telegraf
     volumes:
       - $PWD/config/data:/usr/src/data
+    
+  redismod:
+    build: ./redismod
+    secrets:
+      - azure_blob_secret
+    ports:
+      - 6379:6379
+      
+  drone_app:
+    build: ./drone_app
+    depends_on:
+      - redismod
+      
+  customer_service:
+    image: sagarandcompany/customer-service:latest
+    depends_on:
+    - mysql-service
+    - policy-service
+    ports:
+    - 8080:8080
+    
+  policy_service:
+    image: sagarandcompany/policy-service:latest
+    depends_on:
+    - mysql-service
+    ports:
+    - 8081:8081
+    
+  inspection_service:
+    image: sagarandcompany/inspection-service:latest
+    depends_on:
+    - redis-service
+    - mysql-service
+    ports:
+    - 8082:8082
 
+  frontend:
+    build: ./frontend
+    depends_on:
+    - customer-service
+    - policy-service
+    - inspection-service
+    environment:
+      - "REDIS_HOST=redismod"
+    ports:
+    - 3000:3000
+    - 3625:3625
+    
+secrets:
+  azure_blob_secret:
+    file: ./config/azureblobsecret.txt
