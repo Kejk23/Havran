@@ -7,7 +7,7 @@ if _name_ == '_main_':
     model = model_file.read()
     model_file.close()
     gear_functions_file = open('gearconsumer.py', 'rb')
-    gear_functions gear_functions_file.read()
+    gear_functions = gear_functions_file.read()
     gear_functions_file.close()    
     requirements_file = open('requirements.txt', 'rb')
     requirements = requirements_file.read().splitlines(True)
