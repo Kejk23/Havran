@@ -23,7 +23,7 @@ services:
     ports:
       - "1883:1883"
     volumes:
-     - $PWD/mosquitto:/mosquitto/
+     - $PWD/config/mosquitto.conf:/mosquitto/
 
   telegraf:
     image: telegraf:latest
