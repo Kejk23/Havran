@@ -9,18 +9,15 @@ ENV REDISTIMESERIES_DEPS libssl-dev
 ENV FontPath /data/fonts
 ENV PYTHONPATH /usr/lib/redis/modules/deps/cpython/Lib
 
-WORKDIR /data
+WORKDIR /usr/src/app
+COPY . . 
 RUN set -ex; \
     apt-get update; \
     apt install -y pipenv; \
     apt-get install -y --no-install-recommends ${REDISGRAPH_DEPS}; \
-    apt-get install ffmpeg libsm6 libxext6  -y
-
-WORKDIR /usr/src/app
-COPY requirements.txt ./
-RUN pip install --no-cache-dir --upgrade pip; \
+    apt-get install ffmpeg libsm6 libxext6  -y; \
+    pip install --no-cache-dir --upgrade pip; \
     pip install --no-cache-dir -r requirements.txt
-COPY . .   
 
 COPY --from=redisai ${LD_LIBRARY_PATH}/redisai.so ${LD_LIBRARY_PATH}/
 COPY --from=redisai ${LD_LIBRARY_PATH}/backends ${LD_LIBRARY_PATH}/backends
