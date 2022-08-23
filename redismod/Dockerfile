@@ -9,7 +9,8 @@ ENV REDISTIMESERIES_DEPS libssl-dev
 ENV PYTHONPATH /usr/lib/redis/modules/deps/cpython/Lib
 
 WORKDIR /usr/src/app
-COPY . . 
+
+COPY COPY requirements.txt ./
 RUN set -ex; \
     apt-get update; \
     apt install -y pipenv; \
@@ -17,7 +18,8 @@ RUN set -ex; \
     apt-get install ffmpeg libsm6 libxext6  -y; \
     pip install --no-cache-dir --upgrade pip; \
     pip install --no-cache-dir -r requirements.txt
-
+    
+COPY . . 
 COPY --from=redisai ${LD_LIBRARY_PATH}/redisai.so ${LD_LIBRARY_PATH}/
 COPY --from=redisai ${LD_LIBRARY_PATH}/backends ${LD_LIBRARY_PATH}/backends
 COPY --from=redistimeseries ${LD_LIBRARY_PATH}/*.so ${LD_LIBRARY_PATH}/
