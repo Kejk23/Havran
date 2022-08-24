@@ -65,9 +65,9 @@ def installer():
         run("build.cmd")
 
         # Runs stuff
-        blocks_directory = airsim_directory + r"/Unreal/Environments/Blocks"
+        blocks_directory = os.getcwd() + r"/Unreal/Environments/Blocks"
         os.chdir(blocks_directory)
-        run("open Blocks.sln")
+        run("start Blocks.sln")
 
     if platform.system() == "Linux":
         # Builds stuff
