@@ -1,4 +1,4 @@
-version: "3"
+version: "3.3"
 services:
   influxdb_v2:
     image: influxdb:latest
@@ -23,21 +23,21 @@ services:
     ports:
       - "1883:1883"
     volumes:
-     - $PWD/config/mosquitto.conf:/mosquitto/
+      - ./config/mosquitto:/mosquitto/
 
   telegraf:
     image: telegraf:latest
     volumes:
-      - $PWD/config/telegraf.conf:/etc/telegraf/telegraf.conf
+      - ./config/telegraf.conf:/etc/telegraf/telegraf.conf
       
-  mysql_ervice:
+  mysql_service:
     image: mysql:latest
     environment:
-    - MYSQL_ROOT_PASSWORD=root
-    - MYSQL_DATABASE=test
-    - MYSQL_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=test
+      - MYSQL_PASSWORD=root
     ports:
-    - 3306:3306
+      - 3306:3306
 
   iot_center:
     image: ghcr.io/bonitoo-io/iot-center-v2/iot-center:nightly
@@ -54,7 +54,7 @@ services:
       - influxdb_v2
       - telegraf
     volumes:
-      - $PWD/config/data:/usr/src/data
+      - ./config/data:/usr/src/data
     
   redismod:
     build: ./redismod
@@ -71,37 +71,37 @@ services:
   customer_service:
     image: sagarandcompany/customer-service:latest
     depends_on:
-    - mysql-service
-    - policy-service
+      - mysql-service
+      - policy-service
     ports:
-    - 8080:8080
+      - 8080:8080
     
   policy_service:
     image: sagarandcompany/policy-service:latest
     depends_on:
-    - mysql-service
+      - mysql-service
     ports:
-    - 8081:8081
+      - 8081:8081
     
   inspection_service:
     image: sagarandcompany/inspection-service:latest
     depends_on:
-    - redis-service
-    - mysql-service
+      - redis-service
+      - mysql-service
     ports:
-    - 8082:8082
+      - 8082:8082
 
   frontend:
     build: ./frontend
     depends_on:
-    - customer-service
-    - policy-service
-    - inspection-service
+      - customer-service
+      - policy-service
+      - inspection-service
     environment:
       - "REDIS_HOST=redismod"
     ports:
-    - 3000:3000
-    - 3625:3625
+      - 3000:3000
+      - 3625:3625
     
 secrets:
   azure_blob_secret:
