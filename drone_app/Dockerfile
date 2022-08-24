@@ -9,4 +9,4 @@ RUN set -ex; \
     
 COPY . .   
 
-CMD ["python3", "init.py"]
+CMD ["python3", "./init.py"]
