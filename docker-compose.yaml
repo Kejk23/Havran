@@ -15,7 +15,7 @@ services:
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-token
     command: influxd --reporting-disabled
     
-  redis_service:
+  redis-service:
     image: redis:latest
     
   mosquitto:
@@ -30,16 +30,16 @@ services:
     volumes:
       - ./config/telegraf.conf:/etc/telegraf/telegraf.conf
       
-  mysql_service:
+  mysql-service:
     image: mysql:latest
+    ports:
+      - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=test
       - MYSQL_PASSWORD=root
-    ports:
-      - 3306:3306
 
-  iot_center:
+  iot-center:
     image: ghcr.io/bonitoo-io/iot-center-v2/iot-center:nightly
     ports:
       - "5000:5000"
@@ -58,50 +58,46 @@ services:
     
   redismod:
     build: ./redismod
+    ports:
+      - "6379:6379"
     secrets:
       - azure_blob_secret
-    ports:
-      - 6379:6379
       
-  drone_app:
-    build: ./drone_app
-    depends_on:
-      - redismod
-      
-  customer_service:
+  customer-service:
     image: sagarandcompany/customer-service:latest
+    ports:
+      - "8080:8080"
     depends_on:
       - mysql-service
       - policy-service
-    ports:
-      - 8080:8080
     
-  policy_service:
+  policy-service:
     image: sagarandcompany/policy-service:latest
+    ports:
+      - "8081:8081"
     depends_on:
       - mysql-service
-    ports:
-      - 8081:8081
     
-  inspection_service:
+  inspection-service:
     image: sagarandcompany/inspection-service:latest
+    ports:
+      - "8082:8082"
     depends_on:
       - redis-service
       - mysql-service
-    ports:
-      - 8082:8082
 
-  frontend:
-    build: ./frontend
+
+  web-app:
+    build: https://github.com/piyushjaincloud2/CropInsurRedis/tree/main/Frontend.git
+    ports:
+      - "3000:3000"
+      - "3625:3625"
     depends_on:
       - customer-service
       - policy-service
       - inspection-service
     environment:
       - "REDIS_HOST=redismod"
-    ports:
-      - 3000:3000
-      - 3625:3625
     
 secrets:
   azure_blob_secret:

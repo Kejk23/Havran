@@ -1,7 +1,0 @@
-numpy
-opencv-python
-Pillow
-redis
-azure-storage-blob
-imageio
-pandas

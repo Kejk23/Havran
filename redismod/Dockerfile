@@ -7,8 +7,7 @@ FROM redislabs/redisgears:1.2.5
 ENV LD_LIBRARY_PATH /usr/lib/redis/modules
 ENV REDISTIMESERIES_DEPS libssl-dev
 ENV PYTHONPATH /usr/lib/redis/modules/deps/cpython/Lib
-
-WORKDIR /usr/src/app
+ENV FontPath=/data/fonts
 
 COPY requirements.txt ./
 RUN set -ex; \

@@ -1,6 +1,7 @@
 numpy
 opencv-python
-pillow
+Pillow
+redis
 azure-storage-blob
 imageio
 pandas
