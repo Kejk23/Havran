@@ -67,18 +67,6 @@ services:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=test
       - MYSQL_PASSWORD=root
-
-  web-app:
-    build: ./frontend
-    ports:
-      - "3000:3000"
-      - "3625:3625"
-    depends_on:
-      - customer-service
-      - policy-service
-      - inspection-service
-    environment:
-      - "REDIS_HOST=redismod"
       
   customer-service:
     image: sagarandcompany/customer-service:latest
@@ -102,7 +90,19 @@ services:
     depends_on:
       - redis-service
       - mysql-service
-
+      
+  web-app:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+      - "3625:3625"
+    depends_on:
+      - customer-service
+      - policy-service
+      - inspection-service
+    environment:
+      - "REDIS_HOST=redismod"
+      
 secrets:
   azure_blob_secret:
     file: ./config/azureblobsecret.txt
