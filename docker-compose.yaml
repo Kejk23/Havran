@@ -86,7 +86,6 @@ services:
       - redis-service
       - mysql-service
 
-
   web-app:
     build: https://github.com/piyushjaincloud2/CropInsurRedis/tree/main/Frontend.git
     ports:
