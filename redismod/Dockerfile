@@ -7,7 +7,7 @@ FROM redislabs/redisgears:1.2.5
 ENV LD_LIBRARY_PATH /usr/lib/redis/modules
 ENV REDISTIMESERIES_DEPS libssl-dev
 ENV PYTHONPATH /usr/lib/redis/modules/deps/cpython/Lib
-ENV FontPath=/data/fonts
+ENV FontPath /data/fonts
 
 COPY requirements.txt ./
 RUN set -ex; \
@@ -26,6 +26,6 @@ COPY --from=redistimeseries ${LD_LIBRARY_PATH}/*.so ${LD_LIBRARY_PATH}/
 ENTRYPOINT ["redis-server"]
 
 CMD ["--loadmodule", "/usr/lib/redis/modules/redisai.so", \
-    "--loadmodule", "/usr/lib/redis/modules/redistimeseries.so", \
-    "--loadmodule", "/var/opt/redislabs/lib/modules/redisgears.so", \
-    "Plugin", "/var/opt/redislabs/modules/rg/plugin/gears_python.so"]
+     "--loadmodule", "/usr/lib/redis/modules/redistimeseries.so", \
+     "--loadmodule", "/var/opt/redislabs/lib/modules/redisgears.so", \
+     "Plugin", "/var/opt/redislabs/modules/rg/plugin/gears_python.so"]

@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3"
 services:
   influxdb_v2:
     image: influxdb:latest
@@ -15,9 +15,6 @@ services:
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-token
     command: influxd --reporting-disabled
     
-  redis-service:
-    image: redis:latest
-    
   mosquitto:
     image: eclipse-mosquitto:2.0.10
     ports:
@@ -29,15 +26,6 @@ services:
     image: telegraf:latest
     volumes:
       - ./config/telegraf.conf:/etc/telegraf/telegraf.conf
-      
-  mysql-service:
-    image: mysql:latest
-    ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=test
-      - MYSQL_PASSWORD=root
 
   iot-center:
     image: ghcr.io/bonitoo-io/iot-center-v2/iot-center:nightly
@@ -55,6 +43,9 @@ services:
       - telegraf
     volumes:
       - ./config/data:/usr/src/data
+
+  redis-service:
+    image: redis:latest
     
   redismod:
     build: ./redismod
@@ -62,6 +53,32 @@ services:
       - "6379:6379"
     secrets:
       - azure_blob_secret
+    
+  tensorflow-functions:
+    build: ./tensorflow_functions
+    depends_on:
+      - redismod
+      
+  mysql-service:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=test
+      - MYSQL_PASSWORD=root
+
+  web-app:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+      - "3625:3625"
+    depends_on:
+      - customer-service
+      - policy-service
+      - inspection-service
+    environment:
+      - "REDIS_HOST=redismod"
       
   customer-service:
     image: sagarandcompany/customer-service:latest
@@ -86,18 +103,6 @@ services:
       - redis-service
       - mysql-service
 
-  web-app:
-    build: https://github.com/piyushjaincloud2/CropInsurRedis/tree/main/Frontend.git
-    ports:
-      - "3000:3000"
-      - "3625:3625"
-    depends_on:
-      - customer-service
-      - policy-service
-      - inspection-service
-    environment:
-      - "REDIS_HOST=redismod"
-    
 secrets:
   azure_blob_secret:
     file: ./config/azureblobsecret.txt
