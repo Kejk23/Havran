@@ -30,7 +30,7 @@ If you don't have docker yet, you can simply download the installation file here
 https://app.redislabs.com/#/rlec-downloads
 
 ### Anaconda
-https://www.anaconda.com/products/distribution
+To install some python packages, you will need Anacondam, which you can download her: https://www.anaconda.com/products/distribution
 
 ### Git
 You probably have git already, but if not, you can install it from this website: 
