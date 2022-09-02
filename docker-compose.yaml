@@ -43,6 +43,15 @@ services:
       - telegraf
     volumes:
       - ./config/data:/usr/src/data
+      
+  mysql-service:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=test
+      - MYSQL_PASSWORD=root
 
   redis-service:
     image: redis:latest
@@ -58,15 +67,6 @@ services:
     build: ./tensorflow_functions
     depends_on:
       - redismod
-      
-  mysql-service:
-    image: mysql:latest
-    ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=test
-      - MYSQL_PASSWORD=root
       
   customer-service:
     image: sagarandcompany/customer-service:latest
