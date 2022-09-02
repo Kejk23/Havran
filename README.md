@@ -26,6 +26,12 @@ To install python, all you have to do is to follow this guideline: https://realp
 ### Docker
 If you don't have docker yet, you can simply download the installation file here https://docs.docker.com/get-docker/
 
+### Redislabs modules 
+https://app.redislabs.com/#/rlec-downloads
+
+### Anaconda
+https://www.anaconda.com/products/distribution
+
 ### Git
 You probably have git already, but if not, you can install it from this website: 
 https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
