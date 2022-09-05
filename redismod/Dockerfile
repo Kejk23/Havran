@@ -11,7 +11,7 @@ ENV FontPath /data/fonts
 COPY requirements.txt ./
 RUN set -ex; \
     apt-get update; \
-    apt install -y pipenv; \
+    apt-get install -y pipenv; \
     apt-get install -y --no-install-recommends ${REDISGRAPH_DEPS}; \
     apt-get install ffmpeg libsm6 libxext6  -y; \
     pip install --no-cache-dir --upgrade pip; \

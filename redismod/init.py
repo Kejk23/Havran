@@ -1,6 +1,6 @@
 import redis
 
-conn = redis.Redis.from_url(url='redis://redismod:6379')
+conn = redis.from_url(url='redis://redismod:6379')
 print(conn)
 
 model_file = open('models/model.pb', 'rb')

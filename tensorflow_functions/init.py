@@ -22,6 +22,8 @@ print(result)
 result = conn.execute_command('RG.PYEXECUTE', gear_functions, 'REQUIREMENTS', *requirements)
 print(result)
 
+"""
 # Keeps this vode running (for aesthetic reasons)
 while(True):
     time.sleep(10)
+"""
