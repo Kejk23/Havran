@@ -1,6 +1,3 @@
-# This file isn't mine. It's from https://github.com/piyushjaincloud2/CropInsurRedis/blob/main/Redis_Airsim/app/gearconsumer.py
-# It does not work yet though
-
 from PIL import Image,ImageFont,ImageDraw
 import io
 import numpy as np

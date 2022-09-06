@@ -2,38 +2,30 @@
   "$schema": "./schema.json",
   "cells": [
     {
-      "type": "plot",
-      "plotType": "gauge",
-      "range": {
-        "min": 0,
-        "max": 10
-      },
-      "field": "distance",
-      "label": "Distance sensor",
-      "unit": "″",
-      "decimalPlaces": 1,
+      "type": "svg",
+      "file": "drone",
       "layout": {
-        "x": 6,
+        "x": 4,
         "y": 0,
-        "w": 3,
-        "h": 3
+        "w": 4,
+        "h": 6
       }
     },
     {
       "type": "plot",
       "plotType": "gauge",
       "range": {
-        "min": 0,
-        "max": 10
+        "min": 99700,
+        "max": 99900
       },
-      "field": "voltage",
-      "label": "Voltage",
-      "unit": " V",
+      "field": "air_pressure",
+      "label": "Barometer",
+      "unit": " Pa",
       "decimalPlaces": 2,
       "layout": {
-        "x": 9,
-        "y": 0,
-        "w": 3,
+        "x": 0,
+        "y": 3,
+        "w": 4,
         "h": 3
       }
     },
@@ -42,57 +34,72 @@
       "plotType": "gauge",
       "range": {
         "min": 0,
-        "max": 100
+        "max": 300
       },
-      "field": "speed_a",
-      "label": "Motor A",
-      "unit": " %",
-      "decimalPlaces": 0,
-      "layout": {
-        "x": 6,
-        "y": 3,
-        "w": 3,
-        "h": 3
-      }
-    },
-    {
-      "type": "plot",
-      "plotType": "gauge",
-      "range": {
-        "min": 0,
-        "max": 100
-      },
-      "field": "speed_b",
-      "label": "Motor B",
-      "unit": " %",
-      "decimalPlaces": 0,
-      "layout": {
-        "x": 9,
-        "y": 3,
-        "w": 3,
-        "h": 3
-      }
-    },
-    {
-      "type": "plot",
-      "plotType": "line",
-      "field": [
-        "distance",
-        "distance"
-      ],
-      "label": "Distance",
+      "field": "temperature",
+      "label": "Thermometer",
+      "unit": " °F",
+      "decimalPlaces": 2,
       "layout": {
         "x": 0,
-        "y": 9,
-        "w": 12,
+        "y": 0,
+        "w": 4,
+        "h": 3
+      }
+    },
+    {
+      "type": "plot",
+      "plotType": "gauge",
+      "range": {
+        "min": 0,
+        "max": 5
+      },
+      "field": "air_density",
+      "label": "Aerometer",
+      "unit": " kg/m^3",
+      "decimalPlaces": 2,
+      "layout": {
+        "x": 8,
+        "y": 0,
+        "w": 4,
+        "h": 3
+      }
+    },
+    {
+      "type": "plot",
+      "plotType": "gauge",
+      "range": {
+        "min": 0,
+        "max": 20
+      },
+      "field": "speed",
+      "label": "Speedometer",
+      "unit": " mph",
+      "decimalPlaces": 2,
+      "layout": {
+        "x": 8,
+        "y": 3,
+        "w": 4,
         "h": 3
       }
     },
     {
       "type": "plot",
       "plotType": "line",
-      "field": "voltage",
-      "label": "Battery voltage",
+      "field": [ "orientation_quaternion_w", "orientation_quaternion_x", "orientation_quaternion_y", "orientation_quaternion_z" ],
+      "label": "Orientation quaternions",
+      "layout": {
+        "x": 0,
+        "y": 6,
+        "w": 6,
+        "h": 3
+      }
+    },
+    {
+      "type": "plot",
+      "plotType": "line",
+      "field": [ "speed_x", "speed_y", "speed_z" ],
+      "label": "Speed vectors",
       "layout": {
         "x": 6,
         "y": 6,
@@ -103,24 +110,36 @@
     {
       "type": "plot",
       "plotType": "line",
-      "field": "speed_a",
-      "label": "Motor A",
+      "field": "altitude",
+      "label": "Altimeter",
       "layout": {
         "x": 0,
-        "y": 12,
-        "w": 6,
+        "y": 9,
+        "w": 4,
         "h": 3
       }
     },
     {
       "type": "plot",
       "plotType": "line",
-      "field": "speed_b",
-      "label": "Motor B",
+      "field": [ "longtitude" ],
+      "label": "GPS - longtitude",
       "layout": {
-        "x": 6,
-        "y": 12,
-        "w": 6,
+        "x": 4,
+        "y": 9,
+        "w": 4,
+        "h": 3
+      }
+    },
+    {
+      "type": "plot",
+      "plotType": "line",
+      "field": [ "latitude" ],
+      "label": "GPS - latitude",
+      "layout": {
+        "x": 8,
+        "y": 9,
+        "w": 4,
         "h": 3
       }
     }
