@@ -3,11 +3,12 @@ import io
 import numpy as np
 import cv2
 import redisAI 
-import redisgears
+import redgrease as redisgears
 import sys
 from azure.storage.blob import BlobClient
 from azure.storage.blob import ContainerClient
 import pandas as pd
+from gearsclient  import GearsRemoteBuilder as GearsBuilder
 
 
 MAX_IMAGES = 50
@@ -146,13 +147,13 @@ def addToStream(x):
         streamResult.append(['isDone',isDone])
         streamResult.append(['weather',weatherCondition])
         streamResult.append(['windSpeed',windSpeed])
-        redisgears.executeCommand('xadd', 'predictions', '*',*sum(streamResult, []))
+        redisgears.execute_command('xadd', 'predictions', '*',*sum(streamResult, []))
     except:
         xlog('addToStream: error:', sys.exc_info())
 
 # store the exception logs in the Redis Log Stream
 def xlog(*args):
-    redisgears.executeCommand('xadd', 'log', '*', 'text', ' '.join(map(str, args)))
+    redisgears.execute_command('xadd', 'log', '*', 'text', ' '.join(map(str, args)))
 
 # Registeration of the stream with the Redis Gears
 gb = GearsBuilder('StreamReader')

@@ -20,9 +20,11 @@ def connect_mqtt():
         tempClient.connect("localhost", 1883)
     except:
         print("Can't connect to MQTT at localhost:1883")
-        while tempClient is None:
+        connected = False
+        while not connected:
             try:
                 tempClient.connect("localhost", 1883)
+                connected = True
             except:
                 pass
     return tempClient
@@ -40,42 +42,44 @@ def send(data, client):
 
 # connects to redis
 def connect_redis():
-    tempConn = None
+    t = None
     try:
         tempConn = redis.Redis(host="localhost", port=6379)
+        t = tempConn.ping()
     except: 
         print("Can't connect to Redis at localhost:6379")
-        while tempConn in None:
+        while t is None:
             try:
                 tempConn = redis.Redis(host="localhost", port=6379)
+                t = tempConn.ping()
             except:
                 pass
     return tempConn
-
 # set the camera pose of the drone while flying
 def setCameraPose(client):
     camera_pose = airsim.Pose(airsim.Vector3r(0, 0, 0), airsim.to_quaternion(-1.5708, 0, 0))
     client.simSetCameraPose(1, camera_pose)
 
 # add real time images captured by drone to the redis stream
-def addToStream(conn, img_rgb, iteration, imagename, maxImages):
-    _, data = cv2.imencode('.jpg', img_rgb)
-    storedimg = data.tobytes()
-    iteration = [] # this may couse troubles
+def addToStream(conn, img_rgb, imagename, maxImages):
+    #_, data = cv2.imencode('.jpg', img_rgb) 
+    data = img_rgb
+    storedimg = data
+    iteration = [] # this may couse troubles since i removed weather conditions
     iteration.append(['imagename',imagename])
     iteration.append(['image',storedimg])
     iteration.append(['isDone','0'])
-    conn.execute_command('xadd', 'inspectiondata',  'MAXLEN', '~', str(maxImages), '*', *sum(iteration, []))
+    res = conn.execute_command('xadd', 'inspectiondata', 'MAXLEN', '~', str(maxImages), '*', *sum(iteration, []))
+    #print(res)
 
 # get the images of the land taken by drone
 def getRealTimeImage(client):
-
-    temp_dir = os.mkdir.join(os.getcwd(), "airsim_drone")
-    simImages = client.simGetImages([airsim.ImageRequest("1", airsim.ImageType.Scene, False, False)])
-    simImage = simImages[0]
+    simImage = client.simGetImage("1", airsim.ImageType.Scene)
+    """
     img1d = np.fromstring(simImage.image_data_uint8, dtype=np.uint8)
     img_rgb = img1d.reshape(simImage.height, simImage.width, 3)
-    return img_rgb
+    """
+    return simImage
         
 # coordinates system for redis 
 def convertToMap(data):
@@ -209,7 +213,7 @@ def captureImages():
     print("Stream Acknowledged " + str(res))
 
     while imageClient.isApiControlEnabled():
-        imagename = inspectionId + "_" + str(count) + '.jpg'
+        imagename = inspectionId + "_" + str(count) + '.png'
         img_rgb = getRealTimeImage(imageClient)
         addToStream(conn,img_rgb,imagename,MAX_IMAGES)
         time.sleep(2)

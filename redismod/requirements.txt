@@ -4,3 +4,11 @@ Pillow
 azure-storage-blob
 imageio
 pandas
+numpy
+opencv-python
+Pillow
+azure-storage-blob
+redisai
+pandas
+git+https://github.com/RedisGears/redisgears-py.git
+redgrease

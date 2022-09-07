@@ -62,11 +62,6 @@ services:
       - "6379:6379"
     secrets:
       - azureblobsecret
-    
-  tensorflow-functions:
-    build: ./tensorflow_functions
-    depends_on:
-      - redismod
       
   customer-service:
     image: sagarandcompany/customer-service:latest
@@ -102,6 +97,11 @@ services:
       - inspection-service
     environment:
       - "REDIS_HOST=redismod"
+
+  tensorflow-functions:
+    build: ./tensorflow_functions
+    depends_on:
+        - redismod
       
 secrets:
   azureblobsecret:
