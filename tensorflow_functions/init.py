@@ -18,7 +18,7 @@ def connect_redis():
 if __name__ == '__main__':
     conn = connect_redis()
 
-    model_file = open('models/model.pb', 'rb')
+    model_file = open(r'models/model.pb', 'rb')
     model = model_file.read()
     model_file.close()
     gear_functions_file = open('gearconsumer.py', 'rb')

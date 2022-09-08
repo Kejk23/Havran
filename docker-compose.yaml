@@ -26,6 +26,8 @@ services:
     image: telegraf:latest
     volumes:
       - ./config/telegraf.conf:/etc/telegraf/telegraf.conf
+    depends_on:
+        - mosquitto
 
   iot_center:
     image: ghcr.io/bonitoo-io/iot-center-v2/iot-center:nightly
@@ -70,6 +72,7 @@ services:
     depends_on:
       - mysql-service
       - policy-service
+      - droan-webapp
     
   policy-service:
     image: sagarandcompany/policy-service:latest
@@ -77,6 +80,7 @@ services:
       - "8081:8081"
     depends_on:
       - mysql-service
+      - droan-webapp
     
   inspection-service:
     image: sagarandcompany/inspection-service:latest
@@ -85,20 +89,17 @@ services:
     depends_on:
       - redis-service
       - mysql-service
+      - droan-webapp
       
-  web-app:
+  droan-webapp:
     build: ./frontend
     ports:
       - "3000:3000"
       - "3625:3625"
-    depends_on:
-      - customer-service
-      - policy-service
-      - inspection-service
     environment:
       - "REDIS_HOST=redismod"
 
-  tensorflow-functions:
+  droneapp:
     build: ./tensorflow_functions
     depends_on:
         - redismod

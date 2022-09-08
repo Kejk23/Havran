@@ -1,11 +1,14 @@
 import os
 import cv2
+import io
 import time
 import math
 import redis
 import airsim
 import datetime
 import numpy as np
+from PIL import Image 
+import binascii
 
 from types import TracebackType
 from multiprocessing import Process
@@ -62,24 +65,34 @@ def setCameraPose(client):
 
 # add real time images captured by drone to the redis stream
 def addToStream(conn, img_rgb, imagename, maxImages):
-    #_, data = cv2.imencode('.jpg', img_rgb) 
-    data = img_rgb
-    storedimg = data
-    iteration = [] # this may couse troubles since i removed weather conditions
+    _, data = cv2.imencode('.jpg', img_rgb) 
+    #data = img_rgb
+
+    try:
+        stream = io.BytesIO(data)
+        img = Image.open(stream)
+        img.save(imagename)
+    except:
+        print("storing locally failed")
+
+    storedimg = data.tobytes()
+    iteration = [] # this may couse troubles since I removed weather conditions
+    iteration.append(['weather','Rain'])
+    iteration.append(['windSpeed',5])
     iteration.append(['imagename',imagename])
     iteration.append(['image',storedimg])
     iteration.append(['isDone','0'])
-    res = conn.execute_command('xadd', 'inspectiondata', 'MAXLEN', '~', str(maxImages), '*', *sum(iteration, []))
+    conn.execute_command('xadd', 'inspectiondata', 'MAXLEN', '~', str(maxImages), '*', *sum(iteration, []))
     #print(res)
 
 # get the images of the land taken by drone
 def getRealTimeImage(client):
-    simImage = client.simGetImage("1", airsim.ImageType.Scene)
-    """
+    #simImage = client.simGetImage("1", airsim.ImageType.Scene)
+    simImages = client.simGetImages([airsim.ImageRequest(1, airsim.ImageType.Scene, False, False),])
+    simImage = simImages[0]
     img1d = np.fromstring(simImage.image_data_uint8, dtype=np.uint8)
     img_rgb = img1d.reshape(simImage.height, simImage.width, 3)
-    """
-    return simImage
+    return img_rgb
         
 # coordinates system for redis 
 def convertToMap(data):
@@ -213,7 +226,7 @@ def captureImages():
     print("Stream Acknowledged " + str(res))
 
     while imageClient.isApiControlEnabled():
-        imagename = inspectionId + "_" + str(count) + '.png'
+        imagename = inspectionId + "_" + str(count) + '.jpg'
         img_rgb = getRealTimeImage(imageClient)
         addToStream(conn,img_rgb,imagename,MAX_IMAGES)
         time.sleep(2)

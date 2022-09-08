@@ -6,7 +6,7 @@ import WebSocket from 'ws';
 import redis from 'redis';
 
 const redisPort: number = parseInt(process.env.REDIS_PORT as string) || 6379,
-  redisHost = process.env.REDIS_HOST || 'redismod',
+  redisHost = process.env.REDIS_HOST || 'localhost',
   WebSocketServer = WebSocket.Server,
   streamName = process.env.STREAM || 'inspection',
   STREAMS_KEY = "predictions";

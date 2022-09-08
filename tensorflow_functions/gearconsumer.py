@@ -1,14 +1,16 @@
 from PIL import Image,ImageFont,ImageDraw
+import re
+import base64
 import io
-import numpy as np
 import cv2
-import redisAI 
-import redgrease as redisgears
-import sys
+import numpy as np
+import redisAI
+import redisgears
+import os
 from azure.storage.blob import BlobClient
 from azure.storage.blob import ContainerClient
 import pandas as pd
-from gearsclient  import GearsRemoteBuilder as GearsBuilder
+import sys
 
 
 MAX_IMAGES = 50
@@ -147,16 +149,16 @@ def addToStream(x):
         streamResult.append(['isDone',isDone])
         streamResult.append(['weather',weatherCondition])
         streamResult.append(['windSpeed',windSpeed])
-        redisgears.execute_command('xadd', 'predictions', '*',*sum(streamResult, []))
+        redisgears.executeCommand('xadd', 'predictions', '*',*sum(streamResult, []))
     except:
         xlog('addToStream: error:', sys.exc_info())
 
 # store the exception logs in the Redis Log Stream
 def xlog(*args):
-    redisgears.execute_command('xadd', 'log', '*', 'text', ' '.join(map(str, args)))
+    redisgears.executeCommand('xadd', 'log', '*', 'text', ' '.join(map(str, args)))
 
 # Registeration of the stream with the Redis Gears
-gb = GearsBuilder('StreamReader')
-gb.map(predictImage)
-gb.foreach(addToStream)
-gb.register('inspectiondata')
+GearsBuilder('StreamReader').\
+    map(predictImage).\
+    foreach(addToStream).\
+    register('inspectiondata')
