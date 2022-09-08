@@ -1,5 +1,4 @@
 import redis
-import time
 
 def connect_redis():
     t = None
@@ -7,7 +6,7 @@ def connect_redis():
         tempConn = redis.Redis(host="redismod", port=6379)
         t = tempConn.ping()
     except: 
-        print("Can't connect to Redis at localhost:6379")
+        print("Can't connect to Redis at redismod:6379")
         while t is None:
             try:
                 tempConn = redis.Redis(host="redismod", port=6379)
@@ -34,10 +33,9 @@ if __name__ == '__main__':
     print(result)
     
     # Loads the Gear to register with the inspectiondata stream
-    result = conn.execute_command('RG.PYEXECUTE', gear_functions)
+    result = conn.execute_command('RG.PYEXECUTE', gear_functions, 'REQUIREMENTS', *requirements)
     print(result)
-
-    """
+"""
     # Keeps this vode running (for aesthetic reasons)
     while(True):
         time.sleep(10)

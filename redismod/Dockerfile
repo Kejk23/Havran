@@ -7,6 +7,7 @@ FROM redislabs/redisgears:1.2.5
 ENV LD_LIBRARY_PATH /usr/lib/redis/modules
 ENV REDISTIMESERIES_DEPS libssl-dev
 ENV FontPath /data/fonts
+ENV PYTHONHOME /var/opt/redislabs/modules/rg/python3
 
 COPY requirements.txt ./
 RUN set -ex; \
@@ -15,7 +16,7 @@ RUN set -ex; \
     apt-get install -y --no-install-recommends ${REDISGRAPH_DEPS}; \
     apt-get install ffmpeg libsm6 libxext6  -y; \
     pip install --no-cache-dir --upgrade pip; \
-    pip install --no-cache-dir -r requirements.txt
+    #pip install --no-cache-dir -r requirements.txt
     
 COPY . . 
 COPY --from=redisai ${LD_LIBRARY_PATH}/redisai.so ${LD_LIBRARY_PATH}/
