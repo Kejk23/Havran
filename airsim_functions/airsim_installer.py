@@ -43,7 +43,7 @@ def installer():
         os.chmod(bug_path, S_IWUSR|S_IREAD|S_IRGRP|S_IROTH)
         f = open(bug_path, "r", encoding="utf-8-sig")
         lines = f.read().splitlines(True)   
-        lines.insert(191, '            Result += "-Wno-unused-but-set-variable"')
+        lines.insert(191, '            Result += "-Wno-unused-but-set-variable"') #stopped working somehow
         f.close()
         f = open(bug_path, "w", encoding="utf-8-sig")
         f.writelines(lines)
