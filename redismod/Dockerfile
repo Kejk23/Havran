@@ -3,20 +3,16 @@ FROM redislabs/redisai:edge-cpu-bionic as redisai
 FROM redislabs/redistimeseries:edge as redistimeseries
 FROM redislabs/redisgears:1.2.5
 
-WORKDIR /usr/src/app
+WORKDIR /data
 
 ENV LD_LIBRARY_PATH /usr/lib/redis/modules
 ENV REDISTIMESERIES_DEPS libssl-dev
 ENV FontPath /data/fonts
 
-COPY requirements.txt ./
 RUN set -ex; \
     apt-get update; \
     apt-get install -y --no-install-recommends ${REDISGRAPH_DEPS}; \
-    apt-get install ffmpeg libsm6 libxext6  -y; \
-    apt-get install python3 -y; \
-    pip install --no-cache-dir --upgrade pip
-
+    apt-get install ffmpeg libsm6 libxext6  -y
     
 COPY . . 
 COPY --from=redisai ${LD_LIBRARY_PATH}/redisai.so ${LD_LIBRARY_PATH}/
@@ -24,6 +20,8 @@ COPY --from=redisai ${LD_LIBRARY_PATH}/backends ${LD_LIBRARY_PATH}/backends
 COPY --from=redistimeseries ${LD_LIBRARY_PATH}/*.so ${LD_LIBRARY_PATH}/
 
 ENTRYPOINT ["redis-server"]
+
+ENV PYTHONPATH /var/opt/redislabs/modules/rg/python3_1.2.5
 
 CMD ["--loadmodule", "/usr/lib/redis/modules/redisai.so", \
      "--loadmodule", "/usr/lib/redis/modules/redistimeseries.so", \
