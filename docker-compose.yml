@@ -1,0 +1,111 @@
+version: '3.3'
+services:
+  mysql-service:
+    image: mysql:latest
+    environment:
+    - MYSQL_ROOT_PASSWORD=root
+    - MYSQL_DATABASE=test
+    - MYSQL_PASSWORD=root
+    ports:
+    - 3306:3306
+  redis-service:
+    image: redis:latest
+  customer-service:
+    image: sagarandcompany/customer-service:latest
+    depends_on:
+    - mysql-service
+    - policy-service
+    ports:
+    - 8080:8080
+  policy-service:
+    image: sagarandcompany/policy-service:latest
+    depends_on:
+    - mysql-service
+    ports:
+    - 8081:8081
+  inspection-service:
+    image: sagarandcompany/inspection-service:latest
+    depends_on:
+    - redis-service
+    - mysql-service
+    ports:
+    - 8082:8082
+  redismod:
+    build: ./Redis_Airsim/redismod
+    secrets:
+      - azure_blob_secret
+    ports:
+      - 6379:6379
+  droneapp:
+    build: ./Redis_Airsim/app
+    depends_on:
+      - redismod
+  droan-webapp:
+    build: ./frontend
+    depends_on:
+    - customer-service
+    - policy-service
+    - inspection-service
+    environment:
+      - "REDIS_HOST=redismod"
+    ports:
+    - 3000:3000
+    - 3625:3625
+
+  influxdb_v2:
+    image: influxdb:latest
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXD_HTTP_BIND_ADDRESS=:8086
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=my-user
+      - DOCKER_INFLUXDB_INIT_PASSWORD=my-password
+      - DOCKER_INFLUXDB_INIT_ORG=my-org  
+      - DOCKER_INFLUXDB_INIT_BUCKET=iot_center
+      - DOCKER_INFLUXDB_INIT_RETENTION=30d
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-token
+    command: influxd --reporting-disabled
+    
+  mosquitto:
+    image: eclipse-mosquitto:2.0.10
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./config/mosquitto:/mosquitto/
+
+  telegraf:
+    image: telegraf:latest
+    volumes:
+      - ./config/telegraf.conf:/etc/telegraf/telegraf.conf
+    depends_on:
+        - mosquitto
+
+  iot_center:
+    image: ghcr.io/bonitoo-io/iot-center-v2/iot-center:nightly
+    ports:
+      - "5000:5000"
+    environment:
+      - INFLUX_URL=http://influxdb_v2:8086
+      - INFLUX_TOKEN=my-token
+      - INFLUX_ORG=my-org
+      - MQTT_TOPIC=iot_center
+      - MQTT_URL=mqtt://mosquitto:1883
+    depends_on:
+      - mosquitto
+      - influxdb_v2
+      - telegraf
+    volumes:
+      - ./config/data:/usr/src/data
+      
+  mysql-service:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=test
+      - MYSQL_PASSWORD=root
+secrets:
+  azure_blob_secret:
+    file: ./Redis_Airsim/redismod/secrets/azureblobsecret.txt

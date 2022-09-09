@@ -1,83 +1,110 @@
-preview 
+## Dronification of Crop Insurer using Drone, Redis and cloud technologies
+
+Enable Crop Insurance company to generate insurance policy and claim settlement using Drone, Redis and Cloud Technologies to ensure transparency, Quick turn around time with 100% accuracy and client satisfaction.  
+
+## Projects:
+- Redis_Airsim:
+  -  RedisMod for loading Redis modules
+  -  Image modelling using RedisAI
+  -  Stream Registration using RedisGears
+  -  Modules to create virtual farm using Unreal Engine objects
+  -  Azure blob storage integration
+- Frontend:
+  -  Front end app code
+  -  Integration with Redis stream
+  -  Integration with microservice
+- Microservices:
+  -  Microservice code- Java springboot framework
+  
+## Demo Flow:  
+
+![image](https://user-images.githubusercontent.com/83917397/118404229-9f0dea80-b68f-11eb-96c4-06012e286cc2.png)
 
 
-# Griffin
-AI data collection software for drones in InfluxDB
-
-## Description
-Griffin will be a software application for monitoring drones and storing their data using AI and machine learning. It is still in the early stages of development, but once ready, Griffin will be used to pilot your drone and collect data from its camera in the same way you will train it to do so in Unreal Engine. Your drone will then be able to, for example, monitor crops on a field and then use the data for insurance and farm maintenance, monitor heat and vegetation in your town and use it to create heat maps and suggestions for tree and bush planting sites. The choice will be yours.
-
-## Requirments 
-To install Griffin, you will have to download a few dependencies, so make sure to install them first before continuing.
-
-### Unreal Engine 4.27
-If you use Windows or macOS and you don't have Unreal Engine 4.27 installed, you can follow the instructions listed here: https://docs.unrealengine.com/4.27/en-US/Basics/InstallingUnrealEngine/
-
-#### Instalation for Linux
-If you use Linux, make sure you are registered with Epic Games using GitHub. This is required to get source code access for Unreal Engine. Next, open a directory where you clone GitHub projects and paste the following commands.
-```bash
-git clone -b 4.27 git@github.com:EpicGames/UnrealEngine.git 
-cd UnrealEngine 
-./Setup.sh 
-./GenerateProjectFiles.sh 
-make
+```sh
+- Insurer logins to the portal using his credentials.  
+- Registers for the new customer with property information.  
+- Do the First inspection of the Property using drone to check how much land is cultivated and based on this information generate sum assured and premium.  
+- If Customer is fine with this information create a policy for the customer.  
+- As per policy terms and conditions insurer is free to do another inspection of the land during the polcy period to provide recommedation to the customer if any deviation found while providing the policy.  
+- If customer approach for claim then insurer again inspection the land using drone and understand how much damage happended on the land and provide the claim amount accordingly.  
 ```
 
-### Python 
-To install python, all you have to do is to follow this guideline: https://realpython.com/installing-python/
+## Technical Data Flow:  
 
-### Docker
-If you don't have docker yet, you can simply download the installation file here https://docs.docker.com/get-docker/
-
-### Redislabs modules 
-https://app.redislabs.com/#/rlec-downloads
-
-### Anaconda
-To install some python packages, you will need Anacondam, which you can download her: https://www.anaconda.com/products/distribution
-
-### Git
-You probably have git already, but if not, you can install it from this website: 
-https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
-
-### For Windows users - Visual Studio 2022
-This IDE is unfortunately needed to install AirSim, but don't worry, you will use it only for compiling some source codes and you can delete it afterwards. You can download Visual Studio 2022 here: https://visualstudio.microsoft.com/cs/vs/
-
-### For macOS user - Xcode
-This IDE is needed not only to install AirSim but also to use Unreal Engine in general. If you don!t have it already, you can simply download it from App Store: https://apps.apple.com/us/app/xcode/id497799835?mt=12
-
- ## Installation 
-Open a command prompt/terminal of choice in your destination folder, clone this directory and install requirements.
-```bash
-git clone https://github.com/Kejk23/Griffin.git
-cd Griffin
-pip3 install -r requirements.txt
+```sh
+- Using the Microsoft Custom Vision service, we have trained the model which can identify Cultivalted, InFertileLand, High quality crop, Low quality crop and other lands. This trained model will provide a Tensor flow(*.TB) file which will then be used by RedisAI to help image modelling of images returned through drone.  
+- When insurer register a new customer, front end app will call "Savecustomer" API to save the data in MySQL DB.  
+- When insurer clicks on the inspection button from the front end portal, a signal with new Inspection ID will be pushed to Redis Stream named 'inspection' which will inform Drone to start the inspection of the land.  
+- When the drone is flying over the simulated land, it keep pushing images to Redis stream named 'inspectiondata' and RedisGears container which is listening to that Redis Stream will process this images using trained transor flow model at RedisAI.
+- This modelled images are then saved to Azure blob storage and all other information will be pushed to redis stream which will then be consumed by front end app where it is showing all data to insurer portal.    
+- When all data is received at the front end, it calls "SaveInspection" API to save all data to the MSQL DB.  
+- Also based on this information system will automatically show sumassured and single premimum (single premium value also added a risk factor based on past claimed data of all other customers in that area) to the portal where customer and insurer can agree and create a new policy.  
+- Similarly insurer can do multiple inspection of the same property and if required after inspection, insurer can generate a claim for the given policy.      
+- Front end portal will interact with different microservices to save and get the data on the portal.   
 ```
 
-### AirSim
-Next, we will have to install AirSim. If you have it already, you can skip this step, but if not, please follow the steps below. Installing AirSim, especially on macOS, is so hard nowadays, that I decided to make a python script that installs everything for you. All you have to do now is to run the AirSim_Installer.py script (**in Developer Command Prompt for VS 2022 if you are a Windows user**) by running
-```bash
-python3 AirSim_installer.py
-```
-or
-```bash
-python AirSim_installer.py
-```
-in your Griffin directory. On Windows, a .sln file should open in Visual Studio 2022. Compile it by clicking on a green play button at the top of the screen in the middle.
+## High Level Architecture Diagram:  
 
-## How to run
-Our application is not ready yet, but if you just want to use AirSim, simply follow the guide below. 
+![image](https://user-images.githubusercontent.com/83917397/118373643-9e188280-b5d5-11eb-8310-51c462572ed1.png)
 
-### On macOS and Windows
-If you followed the installation correctly, you should be able to run AirSim by opening Epic Games Launcher, clicking on the Unreal Engine tab and selecting the Blocks environment. If you want to use a different one, all you have to do is to open it and enable the AirSim plugin.
 
-### On Linux
+## Technology Stack
 
-Once AirSim is setup, go to the Unreal Engine installation folder and start Unreal by running
-```bash
-./Engine/Binaries/Linux/UE4Editor
+**Development**  
+ 
+- [Next.JS](https://nextjs.org/)
+- [Python](https://www.python.org/)
+- [Java](https://www.java.com/en/)
+- [Springboot](https://spring.io/projects/spring-boot)
+   
+**Cloud and Services**  
+
+- [Azure cloud](https://azure.microsoft.com/en-in/)
+- [Redis Gears](https://redislabs.com/modules/redis-gears/)
+- [Redis AI](https://redislabs.com/modules/redis-ai/)
+- [Redis Cache](https://redis.io/)
+- [Redis Streaming](https://redis.io/topics/streams-intro)
+- [Dockers](https://www.docker.com/)
+- [Microsoft Airsim](https://microsoft.github.io/AirSim/)
+- [Custom Vision Service](https://azure.microsoft.com/en-us/services/cognitive-services/custom-vision-service/)
+
+## Run Application in Docker Environment
+
+Run the below command from the root folder:
+```sh
+docker-compose up
 ```
-When Unreal Engine prompts for opening or creating a project, select Browse and choose
-```bash
-AirSim/Unreal/Environments/Blocks
-```
-or your custom Unreal project (if that's the case, make sure to enable the AirSim plugin).
+## README.MD for the sub projects
+
+- [Redis_Airsim](https://github.com/piyushjaincloud2/CropInsurRedis/blob/main/Redis_Airsim/README.md)
+- [Frontend](https://github.com/piyushjaincloud2/CropInsurRedis/blob/main/frontend/README.md)
+-  [Microservices](https://github.com/piyushjaincloud2/CropInsurRedis/blob/main/microservices/README.md)
+
+## Troubleshooting
+
+Sometimes you might face an issue in the inspection screen when you are receiving images captured by the drone, the page goes in the loading state to continously get the images. In that case, please restart the front end webapp container named `cropinsurredis_droan-webapp_1` and trigger in inspection again.
+
+## Known Issues
+
+- After converting to claim, claim amount is not showing on the front-end app
+- Missing proper validations on the customer validation form, so proper data needs to be entered otherwise it will give 500 error.
+
+
+## Product Future Enhancements
+
+- Provide the feature to search the Customer within the app.
+- Add a risk factor while calculating sum assured and premium based on the past data of a particular location.
+- In the Inspection table, recent inspections coming from the stream should appear on the top.
+- Export the policy data in `PDF` format.
+
+
+## Application Screenshots
+#### Login page
+![image](https://piyushjaincloud2.github.io/CropInsurRedis/login.png)
+#### Customer Registration page
+![image](https://piyushjaincloud2.github.io/CropInsurRedis/customer-register.png)
+#### Customer List page
+![image](https://piyushjaincloud2.github.io/CropInsurRedis/customer-list.png)
+#### Inspection page
+![image](https://piyushjaincloud2.github.io/CropInsurRedis/inspection-data.png)
