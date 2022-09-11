@@ -1,12 +1,9 @@
 from PIL import Image,ImageFont,ImageDraw
-import re
-import base64
 import io
 import cv2
 import numpy as np
 import redisAI
 import redisgears
-import os
 from azure.storage.blob import BlobClient
 from azure.storage.blob import ContainerClient
 import pandas as pd
@@ -20,7 +17,7 @@ Labels = ["cultivatedLand","damageArea","highQualityCrop","inFertileLand","lowQu
 ContainerName = 'droneimages'
 
 # add boxes to image to show box corner around the areas categorized by the AI model
-def add_boxes_to_images(img, predictions,classes,blob):
+def add_boxes_to_images(img, predictions, classes, blob, detectedProbability):
     try:
         for idx,pred in enumerate(predictions):
             x = int(pred[0] * 600)
@@ -43,7 +40,7 @@ def add_boxes_to_images(img, predictions,classes,blob):
 def saveImageToAzure(img,blob):
     try:
         img_byte_arr = io.BytesIO()
-        img.save(img_byte_arr, format='JPEG')
+        img.save(img_byte_arr, format='JPG')
         img_byte_arr = img_byte_arr.getvalue()
         blob.upload_blob(img_byte_arr)
     except:
@@ -52,7 +49,7 @@ def saveImageToAzure(img,blob):
 # get public url of the image stored at Azure
 def getBlobUrl(imagename,connectionString):
     try:
-        container_client = ContainerClient.from_connection_string(conn_str=connectionString, container_name="droneimages")
+        container_client = ContainerClient.from_connection_string(conn_str=connectionString, container_name=ContainerName)
         blob_client = container_client.get_blob_client(imagename) 
         return blob_client.url
     except:
@@ -109,7 +106,7 @@ def predictImage(x):
                 imagename = x['value']['imagename']
                 connectionString = getSecret("azure_blob_secret")
                 blob = BlobClient.from_connection_string(conn_str=connectionString, container_name=ContainerName, blob_name=imagename)
-                add_boxes_to_images(image,detectedBoxes,detectedClasses,blob)
+                add_boxes_to_images(image, detectedBoxes, detectedClasses, blob, detectedProbability)
                 bloburl = getBlobUrl(imagename,connectionString)
             
             weatherCondition = x['value']['weather']

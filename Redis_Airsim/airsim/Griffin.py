@@ -67,15 +67,6 @@ def setCameraPose(client):
 # add real time images captured by drone to the redis stream
 def addToStream(conn, img_rgb, imagename, maxImages):
     _, data = cv2.imencode('.jpg', img_rgb) 
-    #data = img_rgb
-
-    try:
-        stream = io.BytesIO(data)
-        img = Image.open(stream)
-        img.save(imagename)
-    except:
-        print("storing locally failed")
-
     storedimg = data.tobytes()
     iteration = [] # this may couse troubles since I removed weather conditions
     iteration.append(['weather','Rain'])
