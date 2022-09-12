@@ -1,5 +1,3 @@
-opencv-python
-msgpack-rpc-python
 airsim
 pandas
 azure.storage.blob
@@ -7,3 +5,5 @@ pprintpp
 git+https://github.com/RedisGears/redisgears-py.git
 numpy
 redis
+influxdb_client
+paho.mqtt

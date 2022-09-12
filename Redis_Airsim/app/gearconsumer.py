@@ -40,7 +40,7 @@ def add_boxes_to_images(img, predictions, classes, blob, detectedProbability):
 def saveImageToAzure(img,blob):
     try:
         img_byte_arr = io.BytesIO()
-        img.save(img_byte_arr, format='JPG')
+        img.save(img_byte_arr, format='JPEG')
         img_byte_arr = img_byte_arr.getvalue()
         blob.upload_blob(img_byte_arr)
     except:

@@ -9,6 +9,7 @@ import datetime
 import numpy as np
 from PIL import Image 
 import binascii
+import atexit
 
 from types import TracebackType
 from multiprocessing import Process
@@ -62,7 +63,7 @@ def connect_redis():
 # set the camera pose of the drone while flying
 def setCameraPose(client):
     camera_pose = airsim.Pose(airsim.Vector3r(0, 0, 0), airsim.to_quaternion(-1.5708, 0, 0))
-    client.simSetCameraPose(1, camera_pose)
+    client.simSetCameraPose("1", camera_pose)
 
 # add real time images captured by drone to the redis stream
 def addToStream(conn, img_rgb, imagename, maxImages):
@@ -252,7 +253,8 @@ def captureImages():
     conn.execute_command('xadd', 'inspectiondata',  'MAXLEN', '~', str(MAX_IMAGES), '*', *sum(lastRow,[]))
 
 if __name__ == '__main__':
-    Process(target=flyDrone).start()
-    Process(target=captureData).start()
-    Process(target=captureImages).start()
-    exit()
+
+    flying_process = (Process(target=flyDrone).start())
+    sensors_process = (Process(target=captureData).start())
+    camera_process = (Process(target=captureImages).start())
+    quit()
