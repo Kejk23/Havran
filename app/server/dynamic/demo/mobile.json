@@ -1,0 +1,110 @@
+{
+  "cells": [
+    {
+      "type": "plot",
+      "plotType": "line",
+      "field": [
+        "Battery_level"
+      ],
+      "label": "Battery level",
+      "layout": {
+        "x": 8,
+        "y": 3,
+        "w": 4,
+        "h": 3
+      }
+    },
+    {
+      "type": "plot",
+      "plotType": "line",
+      "field": [
+        "Accelerometer_x",
+        "Accelerometer_y",
+        "Accelerometer_z",
+        "Gyroscope_x",
+        "Gyroscope_y",
+        "Gyroscope_z",
+        "Magnetometer_x",
+        "Magnetometer_y",
+        "Magnetometer_z",
+        "UserAccelerometer_x",
+        "UserAccelerometer_y",
+        "UserAccelerometer_z"
+      ],
+      "label": "Position sensors",
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "w": 7,
+        "h": 3
+      }
+    },
+    {
+      "type": "plot",
+      "plotType": "line",
+      "field": [
+        "Pressure",
+        "Temperature",
+        "Humidity",
+        "Light"
+      ],
+      "label": "Environment sensors",
+      "layout": {
+        "x": 0,
+        "y": 3,
+        "w": 8,
+        "h": 3
+      }
+    },
+    {
+      "type": "plot",
+      "plotType": "gauge",
+      "field": "Battery_charging",
+      "decimalPlaces": 0,
+      "label": "Charging",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "unit": "",
+      "layout": {
+        "x": 8,
+        "y": 6,
+        "w": 4,
+        "h": 3
+      }
+    },
+    {
+      "type": "geo",
+      "latField": "Geo_lat",
+      "lonField": "Geo_lon",
+      "layout": {
+        "x": 7,
+        "y": 0,
+        "w": 5,
+        "h": 3
+      },
+      "Live": {},
+      "Past": {}
+    }
+  ],
+  "supportedDevices": {
+    "deviceTypes": [
+      "android",
+      "ios",
+      "flutter"
+    ]
+  },
+  "noDeviceCells": [
+    {
+      "type": "md",
+      "layout": {
+        "x": 3,
+        "y": 0,
+        "w": 6,
+        "h": 3
+      },
+      "md": "Use [dart/flutter client](https://github.com/bonitoo-io/iot_device_flutter) as mobile device iot-center-v2 source. \n\nWith this client you can generate sensor data for Temperature, Pressure, Positional sensors or geolocation of mobile device.\n\n"
+    }
+  ]
+}

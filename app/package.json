@@ -1,0 +1,23 @@
+{
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": {
+    "packages": [
+      "server",
+      "ui"
+    ]
+  },
+  "scripts": {
+    "build": "cd ui && yarn build",
+    "build_docker": "yarn install --prod=false --frozen-lockfile && cd ui && yarn build",
+    "start": "cd server && yarn start & cd server/droneServer && yarn start",
+    "test": "cd ui && yarn test && cd ../server && yarn test",
+    "dev": "concurrently \"yarn --cwd server dev\" \"yarn --cwd ui start\"",
+    "lint:fix": "yarn --cwd server lint:fix && yarn --cwd ui lint:fix"
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,83 @@
+{
+  "name": "iot-center-v2-ui",
+  "version": "2.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
+    "axios": "^0.21.1",
+    "azure-storage": "^2.10.3",
+    "react-zoom-slider": "^0.1.0",
+    "uid": "^2.0.0",
+    "@ant-design/icons": "^4.2.2",
+    "@antv/g2plot": "^2.3.31",
+    "@influxdata/giraffe": "^2.24.5",
+    "@influxdata/influxdb-client": "^1.23.0",
+    "@influxdata/influxdb-client-apis": "^1.16.0",
+    "@influxdata/influxdb-client-browser": "^1.23.0",
+    "@influxdata/influxdb-client-giraffe": "^1.13.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.13",
+    "@types/react-grid-layout": "^1.3.0",
+    "antd": "^4.6.1",
+    "leaflet": "^1.7.1",
+    "leaflet-ant-path": "^1.3.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-grid-layout": "^1.3.0",
+    "react-leaflet": "^3.1.0",
+    "react-leaflet-ant-path": "^1.1.0",
+    "react-markdown": "^8.0.0",
+    "react-router-dom": "^5.2.0",
+    "react-syntax-highlighter": "^15.4.2",
+    "redis": "^4.3.1"
+  },
+  "scripts": {
+    "build": "vite build",
+    "start": "cross-env REACT_APP_SERVER_PORT=$SERVER_PORT vite --open",
+    "test": "yarn lint && jest --passWithNoTests",
+    "lint": "eslint src/**/*.ts{,x}",
+    "lint:fix": "eslint src/**/*.ts{,x} --fix"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@honkhonk/vite-plugin-svgr": "^1.1.0",
+    "@types/leaflet": "^1.5.21",
+    "@types/react-router-dom": "^5.1.5",
+    "@types/react-syntax-highlighter": "^13.5.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "@vitejs/plugin-react": "^1.2.0",
+    "cross-env": "7.0.3",
+    "eslint": "^8.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-jest": "^26.1.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.29.3",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "jest": "^27.5.1",
+    "less": "^4.1.2",
+    "nock": "^13.0.4",
+    "prettier": "^2.1.1",
+    "ts-jest": "^27.1.3",
+    "typescript": "^4.6.2",
+    "vite": "^2.8.6",
+    "vite-plugin-env-compatible": "^1.1.1"
+  }
+}

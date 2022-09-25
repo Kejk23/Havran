@@ -1,0 +1,39 @@
+{
+  "name": "iot-center-v2-server",
+  "version": "2.1.0",
+  "engines": {
+    "node": ">=12.11.0"
+  },
+  "private": true,
+  "dependencies": {
+    "@influxdata/influxdb-client": "^1.16.0",
+    "@influxdata/influxdb-client-apis": "^1.16.0",
+    "async-mqtt": "^2.6.1",
+    "express": "^4.17.1",
+    "express-http-proxy": "^1.6.2",
+    "express-ws": "^5.0.2",
+    "kafkajs": "^1.15.0",
+    "response-time": "^2.3.2"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "mqtt_dev": "cross-env MQTT_TOPIC=iot_center MQTT_URL=mqtt://localhost:1883 nodemon index.js",
+    "mqtt_subscriber": "cross-env MQTT_TOPIC=iot_center MQTT_URL=mqtt://localhost:1883 nodemon ./mqtt/subscriber.js",
+    "mqtt_subscriber_broker": "nodemon ./mqtt/subscriber_broker.js"
+  },
+  "devDependencies": {
+    "cross-env": "7.0.3",
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.1.1",
+    "websocket": "^1.0.34",
+    "yaml": "^1.10.0"
+  }
+}
