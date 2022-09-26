@@ -50,7 +50,7 @@ async function startApplication() {
 
   // start proxy to InfluxDB to avoid CORS blocking with InfluXDB OSS v2 Beta
   app.use('/influx', proxy(INFLUX_URL))
-    console.log(`Enable proxy from /influx/* to ${INFLUX_URL}/*`)
+  console.log(`Enable proxy from /influx/* to ${INFLUX_URL}/*`)
 
   // UI
   if (await exists(UI_BUILD_DIR)) {

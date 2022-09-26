@@ -1,19 +1,43 @@
-'use strict';
+﻿'use strict';
 
-console.log("zaplo se to")
-
-import WebSocket from 'ws'
+import WebSocket from 'ws';
 import { createClient } from 'redis'
+import express from 'express';
+import next from 'next';
 
-const url: string = 'redis://localhost:6379',
-    streamName = 'inspection',
-    STREAMS_KEY = 'predictions';
+const redisPort: number = parseInt(process.env.REDIS_PORT as string) || 6379,
+    redisHost = process.env.REDIS_HOST || 'localhost',
+    WebSocketServer = WebSocket.Server,
+    streamName = process.env.STREAM || 'inspection',
+    STREAMS_KEY = "predictions";
+const port = process.env.PORT || 5000;
+
 
 async function createServer() {
     try {
         const readStream = function (ws: any) {
             try {
-                const rc: any = createClient({ url });
+                const app = express();
+                app.use(express.json());
+
+                const nextApp = next({
+                    dev: process.env.NODE_ENV !== 'production',
+                    dir: __dirname
+                });
+
+                const handle = nextApp.getRequestHandler();
+
+                nextApp.prepare();
+
+                app.get('*', (req:any, res:any) => handle(req, res));
+
+                app.listen({ port }, () => {
+                    console.log(
+                        `🚀 Server ready at http://localhost:5000`
+                    );
+                });
+
+                const rc: any = createClient({ port: redisPort, host: redisHost });
                 if (!rc.connected) {
                     console.log('redis not connected!');
                 }
@@ -47,7 +71,7 @@ async function createServer() {
         }
 
         function startInspection(inspectionId: string, ws: any) {
-            const rc: any = createClient({ url });
+            const rc: any = createClient({ port: redisPort, host: redisHost });
             rc.xadd(`${streamName}`, '*',
                 'inspectionId', inspectionId,
                 function (err: any,) {
@@ -56,7 +80,7 @@ async function createServer() {
                 });
         }
 
-        const wss = new WebSocket.Server({ port: 3625 });
+        const wss = new WebSocketServer({ port: 3625 });
         wss.on("error", (err: any) => {
             console.log("Caught flash policy server socket error: ")
             console.log(err.stack)

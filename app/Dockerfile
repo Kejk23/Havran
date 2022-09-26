@@ -4,9 +4,6 @@
 FROM node:16-alpine AS builder
 ENV NODE_ENV production
 
-RUN npm install -g typescript; \
-    npm install -g ts-node
-
 # Install /app dependencies
 WORKDIR /app
 COPY package.json .
@@ -30,8 +27,10 @@ COPY --chown=node:node --from=builder /app/ .
 # Create and give permissions for app data
 RUN mkdir -p /usr/src/data
 RUN chmod ugo+rwx /usr/src/data
+
 # Expose port
 EXPOSE 5000
+EXPOSE 3625
 # Start IoT Center
 USER node
 CMD ["dumb-init", "yarn", "start"]

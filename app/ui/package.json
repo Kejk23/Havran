@@ -35,8 +35,8 @@
     "redis": "^4.3.1"
   },
   "scripts": {
-    "build": "vite build",
     "start": "cross-env REACT_APP_SERVER_PORT=$SERVER_PORT vite --open",
+    "build": "vite build",
     "test": "yarn lint && jest --passWithNoTests",
     "lint": "eslint src/**/*.ts{,x}",
     "lint:fix": "eslint src/**/*.ts{,x} --fix"
