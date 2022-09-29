@@ -31,7 +31,7 @@ This IDE is unfortunately needed to install AirSim, but don't worry, you will us
 ### For macOS user - Xcode
 This IDE is needed not only to install AirSim but also to use Unreal Engine in general. If you don!t have it already, you can simply download it from App Store: https://apps.apple.com/us/app/xcode/id497799835?mt=12
  ## Installation 
-Open a command prompt/terminal of choice in your destination folder, clone this directory and install requirements.
+Open an anaconda terminal of choice in your destination folder, clone this directory and install requirements.
 ```bash
 git clone https://github.com/Kejk23/Griffin.git
 cd Griffin
@@ -48,9 +48,9 @@ python AirSim_installer.py
 ```
 in your Griffin directory. On Windows, a .sln file should open in Visual Studio 2022. Compile it by clicking on a green play button at the top of the screen in the middle.
 ## How to run
-Our application is not ready yet, but if you just want to use AirSim, simply follow the guide below. 
+Our application is not ready yet, but you can run the demo version by running the Griffin.py script from anaconda. It will fly the drone and send its data to iot center, but you probably wont see it there, since I have to upload the dynamic page content first.
 ### On macOS and Windows
-If you followed the installation correctly, you should be able to run AirSim by opening Epic Games Launcher, clicking on the Unreal Engine tab and selecting the Blocks environment. If you want to use a different one, all you have to do is to open it and enable the AirSim plugin.
+If you followed the installation correctly, you should be able to run AirSim by opening Epic Games Launcher, clicking on the Unreal Engine tab and selecting the Blocks environment. If you want to use a different one, all you have to do is to open it using unreal editor. 
 ### On Linux
 Once AirSim is setup, go to the Unreal Engine installation folder and start Unreal by running
 ```bash
