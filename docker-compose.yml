@@ -43,6 +43,7 @@ services:
     build: ./app
     ports:
       - "5000:5000"
+      - "3625:3625"
     environment:
       - INFLUX_URL=http://influxdb_v2:8086/
       - INFLUX_TOKEN=my-token

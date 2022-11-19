@@ -23,9 +23,9 @@ def find_unreal_4(directory):
 # Installs AirSim
 def installer():
     # Clones AirSim and cds into it
-    griffin_directory = os.getcwd()
+    havran_directory = os.getcwd()
     run("git clone https://github.com/Microsoft/AirSim.git")
-    airsim_directory = os.path.join(griffin_directory, r"AirSim")
+    airsim_directory = os.path.join(havran_directory, r"AirSim")
     os.chdir(airsim_directory)
 
     if platform.system() == "Darwin":
