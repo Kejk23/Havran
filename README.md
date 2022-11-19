@@ -1,7 +1,7 @@
-# Griffin
+# Havran
 AI data collection software for drones in InfluxDB
 ## Description
-Griffin will be a software application for monitoring drones and storing their data using AI and machine learning. It is still in the early stages of development, but once ready, Griffin will be used to pilot your drone and collect data from its camera in the same way you will train it to do so in Unreal Engine. Your drone will then be able to, for example, monitor crops on a field and then use the data for insurance and farm maintenance, monitor heat and vegetation in your town and use it to create heat maps and suggestions for tree and bush planting sites. The choice will be yours.
+Havran will be a software application for monitoring drones and storing their data using AI and machine learning. It is still in the early stages of development, but once ready, Havran will be used to pilot your drone and collect data from its camera in the same way you will train it to do so in Unreal Engine. Your drone will then be able to, for example, monitor crops on a field and then use the data for insurance and farm maintenance, monitor heat and vegetation in your town and use it to create heat maps and suggestions for tree and bush planting sites. The choice will be yours.
 ## Requirments 
 To install Griffin, you will have to download a few dependencies, so make sure to install them first before continuing.
 ### Unreal Engine 4.27
@@ -46,7 +46,7 @@ or
 ```bash
 python AirSim_installer.py
 ```
-in your Griffin directory. On Windows, a .sln file should open in Visual Studio 2022. Compile it by clicking on a green play button at the top of the screen in the middle.
+in your Havran directory. On Windows, a .sln file should open in Visual Studio 2022. Compile it by clicking on a green play button at the top of the screen in the middle.
 ## How to run
 Our application is not ready yet, but you can run the demo version by running the Griffin.py script from anaconda. It will fly the drone and send its data to iot center, but you probably wont see it there, since I have to upload the dynamic page content first.
 ### On macOS and Windows
