@@ -61,3 +61,7 @@ When Unreal Engine prompts for opening or creating a project, select Browse and 
 AirSim/Unreal/Environments/Blocks
 ```
 or your custom Unreal project (if that's the case, make sure to enable the AirSim plugin).
+
+## Acknowledgment
+
+This project was greatly inspired by [CropInsurRedis](https://github.com/piyushjaincloud2/CropInsurRedis), a software demo made for dronification of crop insurerance using drone, redis and cloud technologies. I would like to thank the authors of this project because I used some pieces of CropInsurRedis's code during the development of Havran and it has been really helpful.  
