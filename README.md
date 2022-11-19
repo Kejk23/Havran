@@ -3,7 +3,7 @@ AI data collection software for drones in InfluxDB
 ## Description
 Havran will be a software application for monitoring drones and storing their data using AI and machine learning. It is still in the early stages of development, but once ready, Havran will be used to pilot your drone and collect data from its camera in the same way you will train it to do so in Unreal Engine. Your drone will then be able to, for example, monitor crops on a field and then use the data for insurance and farm maintenance, monitor heat and vegetation in your town and use it to create heat maps and suggestions for tree and bush planting sites. The choice will be yours.
 ## Requirments 
-To install Griffin, you will have to download a few dependencies, so make sure to install them first before continuing.
+To install Havran, you will have to download a few dependencies, so make sure to install them first before continuing.
 ### Unreal Engine 4.27
 If you use Windows or macOS and you don't have Unreal Engine 4.27 installed, you can follow the instructions listed here: https://docs.unrealengine.com/4.27/en-US/Basics/InstallingUnrealEngine/
 #### Instalation for Linux
@@ -33,8 +33,8 @@ This IDE is needed not only to install AirSim but also to use Unreal Engine in g
  ## Installation 
 Open an anaconda terminal of choice in your destination folder, clone this directory and install requirements.
 ```bash
-git clone https://github.com/Kejk23/Griffin.git
-cd Griffin
+git clone https://github.com/Kejk23/Havran.git
+cd Havran
 pip3 install -r requirements.txt
 ```
 ### AirSim
