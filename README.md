@@ -48,7 +48,7 @@ python AirSim_installer.py
 ```
 in your Havran directory. On Windows, a .sln file should open in Visual Studio 2022. Compile it by clicking on a green play button at the top of the screen in the middle.
 ## How to run
-Our application is not ready yet, but you can run the demo version by running the Griffin.py script from anaconda. It will fly the drone and send its data to iot center, but you probably wont see it there, since I have to upload the dynamic page content first.
+Our application is not ready yet, but you can run the demo version by running the havran.py script from anaconda. It will fly the drone and send its data to iot center, but you probably wont see it there, since I have to upload the dynamic page content first.
 ### On macOS and Windows
 If you followed the installation correctly, you should be able to run AirSim by opening Epic Games Launcher, clicking on the Unreal Engine tab and selecting the Blocks environment. If you want to use a different one, all you have to do is to open it using unreal editor. 
 ### On Linux
